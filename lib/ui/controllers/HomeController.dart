@@ -1,5 +1,6 @@
 import 'package:comfy_dating/base/BaseController.dart';
 import 'package:comfy_dating/ui/models/HomeModel.dart';
+import 'package:comfy_dating/ui/templates/dialogs/MsgDialog.dart';
 import 'package:comfy_dating/ui/views/MemberPage.dart';
 import 'package:comfy_dating/ui/views/MessagePage.dart';
 import 'package:comfy_dating/ui/views/SearchingPage.dart';
@@ -11,6 +12,8 @@ class HomeController extends BaseController<HomeModel> {
 
   var selectedIndex = 0.obs;
   var canPop = false.obs;
+
+  List<String> titles = ["search".tr, "message".tr, "member".tr];
 
   @override
   HomeModel initModel() => HomeModel();
@@ -42,6 +45,13 @@ class HomeController extends BaseController<HomeModel> {
     }
   }
 
+  void showMsg(String msg){
+    Get.dialog(
+      MsgDialog(msg),
+    );
+  }
+
+  // ------------------------------
   void _updateCanPop(){
     NavigatorState? state = Get.global(selectedIndex.value).currentState;
     if( state == null || !state.canPop() ){

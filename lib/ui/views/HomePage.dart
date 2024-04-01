@@ -19,10 +19,18 @@ class HomePage extends GetView<HomeController>{
         },
         child: Scaffold(
           appBar: AppBar(
-              leading: controller.canPop.value ? BackButton(
-                onPressed: controller.onBackPress,
-              ) : null,
-              title: const Text("title")
+            title: Text(controller.titles[controller.selectedIndex.value]),
+            leading: controller.canPop.value ? BackButton(
+              onPressed: controller.onBackPress,
+            ) : null,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: (){
+                  controller.showMsg("test");
+                }
+              )
+            ],
           ),
           body: IndexedStack(
             index: controller.selectedIndex.value,
@@ -45,21 +53,20 @@ class HomePage extends GetView<HomeController>{
             ],
           ),
           bottomNavigationBar: BottomNavigationBar(  // https://gist.github.com/eduardoflorence/11c0a4db3cba9d50ba72a0c6c262df40
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Search',
+                icon: Icon(Icons.search),
+                label: controller.titles[0],
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.business),
-                label: 'Chat',
+                icon: Icon(Icons.message),
+                label: controller.titles[1],
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.school),
-                label: 'Member',
+                icon: Icon(Icons.person),
+                label: controller.titles[2],
               ),
             ],
-            selectedItemColor: Colors.pink,
             currentIndex: controller.selectedIndex.value,
             onTap: (index) => controller.selectedIndex.value = index,
           ),

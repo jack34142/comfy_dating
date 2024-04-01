@@ -1,4 +1,3 @@
-import 'package:comfy_dating/ui/controllers/HomeController.dart';
 import 'package:comfy_dating/ui/controllers/SearchingController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,8 +12,19 @@ class SearchingBinding implements Bindings {
 class SearchingPage extends GetView<SearchingController>{
   @override
   Widget build(context) {
-    return TextButton(onPressed: (){
-      HomeController.to.go("/home/search");
-    }, child: Text("test"));
+    return Stack(
+      children: [
+        Container(
+          color: Colors.red,
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 100),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))
+          ),
+        ),
+      ],
+    );
   }
 }

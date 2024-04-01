@@ -1,3 +1,4 @@
+import 'package:comfy_dating/config/MyColors.dart';
 import 'package:comfy_dating/l10n/Messages.dart';
 import 'package:comfy_dating/ui/views/HomePage.dart';
 import 'package:comfy_dating/ui/views/MemberPage.dart';
@@ -14,10 +15,34 @@ void main() {
   }
 
   runApp(GetMaterialApp(
-    title: 'appname'.tr,
     enableLog: kDebugMode,
     // navigatorKey: Get.key,
     // navigatorObservers: [GetObserver()],
+    title: 'appname'.tr,
+    theme: ThemeData(
+      primaryColor: MyColors.primary,
+      appBarTheme: AppBarTheme(
+        backgroundColor: MyColors.primary,
+        // foregroundColor: MyColors.primary
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        selectedItemColor: MyColors.icon_selected,
+        unselectedItemColor: MyColors.icon_unselected
+      ),
+      textTheme: const TextTheme(
+        labelLarge: TextStyle(  //button文字
+          fontSize: 16,
+          fontWeight: FontWeight.bold
+        ),
+        bodyMedium: TextStyle(  // 一般文字
+          fontSize: 16,
+        ),
+      ),
+      buttonTheme: const ButtonThemeData(
+        height: 40
+      ),
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap
+    ),
     popGesture: true,
     initialRoute: '/home',
     getPages: [  // 子頁面需要在HomeController設定
