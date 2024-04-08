@@ -1,7 +1,7 @@
 import 'package:comfy_dating/base/BaseController.dart';
-import 'package:comfy_dating/ui/models/MessageModel.dart';
+import 'package:comfy_dating/base/BaseModel.dart';
 
-class MessageController extends BaseController<MessageModel> {
+class MessageController extends BaseController<BaseModel> {
   @override
-  MessageModel initModel() => MessageModel();
+  BaseModel initModel() => BaseModel();
 }

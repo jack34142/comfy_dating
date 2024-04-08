@@ -1,7 +1,7 @@
 import 'package:comfy_dating/base/BaseController.dart';
-import 'package:comfy_dating/ui/models/MemberModel.dart';
+import 'package:comfy_dating/base/BaseModel.dart';
 
-class MemberController extends BaseController<MemberModel> {
+class MemberController extends BaseController<BaseModel> {
   @override
-  MemberModel initModel() => MemberModel();
+  BaseModel initModel() => BaseModel();
 }

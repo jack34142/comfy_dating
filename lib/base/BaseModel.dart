@@ -1,6 +1,6 @@
 import 'package:comfy_dating/http/BaseHttp.dart';
 
-abstract class BaseModel {
+class BaseModel {
   late final BaseHttp http;
 
   HomeModel(){
