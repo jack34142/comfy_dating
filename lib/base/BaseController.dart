@@ -1,5 +1,6 @@
 import 'package:comfy_dating/base/BaseModel.dart';
 import 'package:comfy_dating/ui/controllers/OverlayController.dart';
+import 'package:comfy_dating/ui/templates/dialogs/MsgDialog.dart';
 import 'package:get/get.dart';
 
 abstract class BaseController<T extends BaseModel> extends FullLifeCycleController with FullLifeCycleMixin{
@@ -15,6 +16,10 @@ abstract class BaseController<T extends BaseModel> extends FullLifeCycleControll
 
   void showToast(String msg){
     OverlayController.to.showToast(msg);
+  }
+
+  void showMsg(String msg){
+    Get.dialog(MsgDialog(msg));
   }
 
   @override

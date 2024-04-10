@@ -16,25 +16,27 @@ class OverlayPage extends StatelessWidget{
       alignment:Alignment.center,
       children: [
         child,
-        Obx(() => Positioned(
+        Obx(() => Positioned(  // toast
           bottom: Get.height*0.1,
           child: AnimatedOpacity(
             opacity: controller.isToast.value ? 1.0 : 0.0,
-            duration: Duration(milliseconds: 200),
-            child: Container(
-              constraints: BoxConstraints(maxWidth: Get.width*0.8),
-              // margin: EdgeInsets.symmetric(horizontal: 20),
-              padding: EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-              decoration: BoxDecoration(
-                  color: Color(0x88000000),
-                  borderRadius: BorderRadius.all(Radius.circular(8))
-              ),
-              child: Text(controller.toastString.value,
-                // softWrap: true,
-                style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    decoration: TextDecoration.none
+            duration: const Duration(milliseconds: 200),
+            child: IgnorePointer(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: Get.width*0.8),
+                // margin: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+                decoration: const BoxDecoration(
+                    color: Color(0x88000000),
+                    borderRadius: BorderRadius.all(Radius.circular(8))
+                ),
+                child: Text(controller.toastString.value,
+                  // softWrap: true,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      decoration: TextDecoration.none
+                  ),
                 ),
               ),
             ),

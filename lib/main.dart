@@ -19,26 +19,30 @@ void main() {
     // ],
     title: 'appname'.tr,
     theme: ThemeData(
-      primaryColor: MyColors.primary,
+      unselectedWidgetColor: MyColors.icon_unselected,
+      colorScheme: ColorScheme.highContrastLight(
+        primary: MyColors.icon_selected,  //selected/button color
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: MyColors.primary,
         // foregroundColor: MyColors.primary
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        selectedItemColor: MyColors.icon_selected,
-        unselectedItemColor: MyColors.icon_unselected
-      ),
       textTheme: const TextTheme(
         labelLarge: TextStyle(  //button文字
           fontSize: 16,
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.bold,
         ),
         bodyMedium: TextStyle(  // 一般文字
           fontSize: 16,
         ),
       ),
-      buttonTheme: const ButtonThemeData(
-        height: 40
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(
+            width: 1.5,
+            color: MyColors.icon_selected
+          ),
+        )
       ),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap
     ),

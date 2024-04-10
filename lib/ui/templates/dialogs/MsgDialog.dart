@@ -36,11 +36,11 @@ class MsgDialog extends StatelessWidget {
                 children: [
                   Expanded(child: MaterialButton(
                     // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    // height: 40,
-                      onPressed: (){
-                        Get.back();
-                      },
-                      child: Text("close".tr)
+                    height: 40,
+                    onPressed: (){
+                      Get.back();
+                    },
+                    child: Text("close".tr)
                   ))
                 ],
               )

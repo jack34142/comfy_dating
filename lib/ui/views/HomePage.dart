@@ -18,20 +18,6 @@ class HomePage extends GetView<HomeController>{
           controller.onBackPress();
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: Text(controller.titles[controller.selectedIndex.value]),
-            leading: controller.canPop.value ? BackButton(
-              onPressed: controller.onBackPress,
-            ) : null,
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: (){
-                  controller.showMsg("test");
-                }
-              )
-            ],
-          ),
           body: IndexedStack(
             index: controller.selectedIndex.value,
             children: [

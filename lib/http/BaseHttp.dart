@@ -33,7 +33,7 @@ class BaseHttp extends GetConnect {
     //     // }
     //   });
     //
-    //   // 拿到的data可以預處理, ex. array to json
+    //   // 拿到的data可以預處理, ex. array to jsons
     //   // httpClient.defaultDecoder = CasesModel.fromJson;
     // }
 

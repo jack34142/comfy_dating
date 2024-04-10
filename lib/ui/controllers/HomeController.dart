@@ -17,11 +17,19 @@ class HomeController extends BaseController<BaseModel> {
   @override
   BaseModel initModel() => BaseModel();
 
-  void go(String routeName){
-    Get.toNamed(routeName, id: selectedIndex.value);
+  void go(String routeName, {
+      bool offAll = false,
+      dynamic arguments
+  }){
+    if(offAll){
+      Get.offAllNamed(routeName, id: selectedIndex.value, arguments: arguments);
+    }else {
+      Get.toNamed(routeName, id: selectedIndex.value, arguments: arguments);
+    }
     _updateCanPop();
   }
 
+  // ------------------------------
   void onBackPress(){
     if( canPop.value ){
       Get.back(id: selectedIndex.value);
@@ -34,21 +42,14 @@ class HomeController extends BaseController<BaseModel> {
   Route? onRouteGenerate(RouteSettings settings) {
     switch(settings.name){
       case "/home/search":
-        return GetPageRoute(page: () => SearchingPage(), binding: SearchingBinding(), settings: settings);
+        return GetPageRoute(page: () => SearchingPage(), binding: SearchingBinding(), settings: settings, transitionDuration: Duration.zero);
       case "/home/message":
-        return GetPageRoute(page: () => MessagePage(), binding: MessageBinding(), settings: settings);
+        return GetPageRoute(page: () => MessagePage(), binding: MessageBinding(), settings: settings, transitionDuration: Duration.zero);
       case "/home/member":
-        return GetPageRoute(page: () => MemberPage(), binding: MemberBinding(), settings: settings);
+        return GetPageRoute(page: () => MemberPage(), binding: MemberBinding(), settings: settings, transitionDuration: Duration.zero);
       default:
         return null;
     }
-  }
-
-  void showMsg(String msg){
-    showToast(msg);
-    // Get.dialog(
-    //   MsgDialog(msg),
-    // );
   }
 
   // ------------------------------

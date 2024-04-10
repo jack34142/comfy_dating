@@ -31,3 +31,9 @@ Get.offAll(NextScreen());
 trParams 取代@key 
 trArgs 取代%s
 ```
+
+#### 台灣地區json
+https://gist.github.com/abc873693/2804e64324eaaf26515281710e1792df
+
+#### flutter button 差異
+https://blog.csdn.net/ww897532167/article/details/125619399
