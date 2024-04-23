@@ -2,12 +2,12 @@
 
 import 'dart:convert';
 
-CountyBean twCountyFromJson(String str) => CountyBean.fromJson(json.decode(str));
+AreaBean twCountyFromJson(String str) => AreaBean.fromJson(json.decode(str));
 
-String twCountyToJson(CountyBean data) => json.encode(data.toJson());
+String twCountyToJson(AreaBean data) => json.encode(data.toJson());
 
-class CountyBean {
-    CountyBean({
+class AreaBean {
+    AreaBean({
         required this.districts,
         required this.name,
     });
@@ -16,7 +16,7 @@ class CountyBean {
     String name;
     int selectCount = 0;
 
-    factory CountyBean.fromJson(Map<dynamic, dynamic> json) => CountyBean(
+    factory AreaBean.fromJson(Map<dynamic, dynamic> json) => AreaBean(
         districts: List<District>.from(json["districts"].map((x) => District.fromJson(x))),
         name: json["name"],
     );

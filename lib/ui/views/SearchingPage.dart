@@ -1,12 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:comfy_dating/beans/PersonBean.dart';
 import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/configs/MyStyles.dart';
-import 'package:comfy_dating/enums/Gender.dart';
 import 'package:comfy_dating/http/GitApi.dart';
 import 'package:comfy_dating/ui/controllers/HomeController.dart';
 import 'package:comfy_dating/ui/controllers/SearchingController.dart';
 import 'package:comfy_dating/ui/templates/buttons/CheckButton.dart';
 import 'package:comfy_dating/ui/templates/textFields/MyTextField.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class SearchingBinding implements Bindings {
@@ -18,8 +22,8 @@ class SearchingBinding implements Bindings {
 }
 
 class SearchingPage extends GetView<SearchingController>{
-  final TextEditingController _minHighController = TextEditingController();
-  final TextEditingController _maxHighController = TextEditingController();
+  final TextEditingController _minHeightController = TextEditingController();
+  final TextEditingController _maxHeightController = TextEditingController();
   final TextEditingController _minWeightController = TextEditingController();
   final TextEditingController _maxWeightController = TextEditingController();
   final TextEditingController _minAgeController = TextEditingController();
@@ -43,10 +47,7 @@ class SearchingPage extends GetView<SearchingController>{
         ),
         Expanded(child: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-            ),
+            _buildPeople(),
             controller.isSearch.value ? _buildSearchFilter() : Container()
           ],
         ))
@@ -54,141 +55,255 @@ class SearchingPage extends GetView<SearchingController>{
     ));
   }
 
-  Widget _buildSearchFilter(){
-    return Material(
-      elevation: 5,
-      borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
-      color: MyColors.bg_default,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: Get.height*0.6
+  Widget _buildPeople(){
+    const font11 = TextStyle(
+        fontSize: 11
+    );
+    return GridView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            childAspectRatio: 2/3,
+            crossAxisCount: 2,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        itemCount: controller.persons.length,
+        itemBuilder: (context, index){
+          PersonBean person = controller.persons[index];
+          Color mColor = person.gender == "f" ? MyColors.pink : MyColors.blue;
+          return Material(
+            elevation: 6,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(11))
+            ),
+            clipBehavior: Clip.hardEdge,
+            child: Ink.image(
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(
+                "https://scontent.ftpe14-1.fna.fbcdn.net/v/t1.6435-9/93366674_2972441042778573_4903541754998816768_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=jncWmNkmSqoAb6CmMSc&_nc_ht=scontent.ftpe14-1.fna&oh=00_AfBuWqM3FsySpCMsXtrV_WJpjV7xcjDOwpdcF1IRTe2yzQ&oe=664F3A61",
+                // placeholder: (context, url) => CircularProgressIndicator(),
+                // errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
+              child: InkWell(
+                onTap: (){
+
+                },
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        padding: EdgeInsets.only(right: 4, top: 0, bottom: 1, left: 5),
+                        decoration: BoxDecoration(
+                            color: mColor.withOpacity(0.7),
+                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8))
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(child: Text(person.name, style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold
+                            ))),
+                            Container(width: 3, height: 0),
+                            Text(person.age.toString(), style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold
+                            ),),
+                          ],
+                        ),
+                      )
+                    ),
+                    Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [ mColor, mColor.withOpacity(0.7), mColor.withOpacity(0.4)],
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                              )
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.only(left: 4, top: 2, bottom: 2, right: 5),
+                            child: Row(
+                              children: [
+                                Text(person.height.toString(), style: font11),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 1),
+                                  child: Text("/", style: font11),
+                                ),
+                                Expanded(child: Text(person.weight.toString(), style: font11)),
+                                Text(person.area, style: font11)
+                              ],
+                            ),
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+    );
+  }
+
+  Widget _buildSearchFilter(){
+    return Container(
+      // color: MyColors.shadow,
+      child: Column(
+        children: [
+          Material(
+            elevation: 5,
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+            color: MyColors.bg_default,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: Get.height*0.6
+              ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("gender".tr, style: MyStyles.text_title),
-                  Container(height: 3),
-                  Wrap(
-                    spacing: 4,
-                    children: [
-                      CheckButton(Text("male".tr),
-                        isSelect: controller.gender.value == Gender.MALE,
-                        onPressed: () => controller.onGenderTap(Gender.MALE)
-                      ),
-                      CheckButton(Text("female".tr),
-                        isSelect: controller.gender.value == Gender.FEMALE,
-                        onPressed:  () => controller.onGenderTap(Gender.FEMALE)
-                      )
-                    ],
+                  SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("gender".tr, style: MyStyles.text_title),
+                        Container(height: 3),
+                        Wrap(
+                          spacing: 4,
+                          children: [
+                            CheckButton(Text("male".tr),
+                                isSelect: controller.gender.value == "m",
+                                onPressed: () => controller.onGenderTap("m")
+                            ),
+                            CheckButton(Text("female".tr),
+                                isSelect: controller.gender.value == "f",
+                                onPressed:  () => controller.onGenderTap("f")
+                            )
+                          ],
+                        ),
+                        Row(
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("area".tr, style: MyStyles.text_title),
+                            IconButton(
+                                onPressed: controller.onAreaFilterTap,
+                                icon: Icon(Icons.add_circle, color: MyColors.primary)
+                            )
+                          ],
+                        ),
+                        Wrap(
+                          spacing: 4,
+                          children: controller.twAreas
+                              .where((county) => county.selectCount > 0)
+                              .map((county) => Text("${county.name}(${county.selectCount})")).toList(),
+                        ),
+                        Container(height: 5),
+                        Row(
+                          children: [
+                            Text("high".tr, style: MyStyles.text_title),
+                            Container(
+                              margin: EdgeInsets.only(left: 8),
+                              width: 48,
+                              child: MyTextField(numberOnly: true, maxLength: 3, controller: _minHeightController),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 7),
+                              child: Text("~"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 6),
+                              width: 48,
+                              child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxHeightController),
+                            ),
+                            Text("cm"),
+                            IconButton(onPressed: (){
+                              _minHeightController.text = "";
+                              _maxHeightController.text = "";
+                            }, icon: Icon(Icons.cancel, color: MyColors.primary))
+                          ],
+                        ),
+                        Container(height: 6),
+                        Row(
+                          children: [
+                            Text("weight".tr, style: MyStyles.text_title),
+                            Container(
+                              margin: EdgeInsets.only(left: 8),
+                              width: 48,
+                              child: MyTextField(numberOnly: true, maxLength: 3, controller: _minWeightController),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 7),
+                              child: Text("~"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 6),
+                              width: 48,
+                              child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxWeightController),
+                            ),
+                            Text("kg"),
+                            IconButton(onPressed: (){
+                              _minWeightController.text = "";
+                              _maxWeightController.text = "";
+                            }, icon: Icon(Icons.cancel, color: MyColors.primary))
+                          ],
+                        ),
+                        Container(height: 6),
+                        Row(
+                          children: [
+                            Text("age".tr, style: MyStyles.text_title),
+                            Container(
+                              margin: EdgeInsets.only(left: 8),
+                              width: 48,
+                              child: MyTextField(numberOnly: true, maxLength: 3, controller: _minAgeController),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 7),
+                              child: Text("~"),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 6),
+                              width: 48,
+                              child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxAgeController),
+                            ),
+                            Text("years_old".tr),
+                            IconButton(onPressed: (){
+                              _minAgeController.text = "";
+                              _maxAgeController.text = "";
+                            }, icon: Icon(Icons.cancel, color: MyColors.primary))
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                  Row(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("area".tr, style: MyStyles.text_title),
-                      IconButton(
-                        onPressed: controller.onAreaFilterTap,
-                        icon: Icon(Icons.add_circle, color: MyColors.primary)
-                      )
-                    ],
-                  ),
-                  Wrap(
-                    spacing: 4,
-                    children: controller.twCountys
-                        .where((county) => county.selectCount > 0)
-                        .map((county) => Text("${county.name}(${county.selectCount})")).toList(),
-                  ),
-                  Container(height: 5),
-                  Row(
-                    children: [
-                      Text("high".tr, style: MyStyles.text_title),
-                      Container(
-                        margin: EdgeInsets.only(left: 8),
-                        width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _minHighController),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 7),
-                        child: Text("~"),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 6),
-                        width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxHighController),
-                      ),
-                      Text("cm"),
-                      IconButton(onPressed: (){
-                        _minHighController.text = "";
-                        _maxHighController.text = "";
-                      }, icon: Icon(Icons.cancel, color: MyColors.primary))
-                    ],
-                  ),
-                  Container(height: 6),
-                  Row(
-                    children: [
-                      Text("weight".tr, style: MyStyles.text_title),
-                      Container(
-                        margin: EdgeInsets.only(left: 8),
-                        width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _minWeightController),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 7),
-                        child: Text("~"),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 6),
-                        width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxWeightController),
-                      ),
-                      Text("kg"),
-                      IconButton(onPressed: (){
-                        _minWeightController.text = "";
-                        _maxWeightController.text = "";
-                      }, icon: Icon(Icons.cancel, color: MyColors.primary))
-                    ],
-                  ),
-                  Container(height: 6),
-                  Row(
-                    children: [
-                      Text("age".tr, style: MyStyles.text_title),
-                      Container(
-                        margin: EdgeInsets.only(left: 8),
-                        width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _minAgeController),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: 7),
-                        child: Text("~"),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 6),
-                        width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxAgeController),
-                      ),
-                      Text("years_old".tr),
-                      IconButton(onPressed: (){
-                        _minAgeController.text = "";
-                        _maxAgeController.text = "";
-                      }, icon: Icon(Icons.cancel, color: MyColors.primary))
-                    ],
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    child: TextButton(onPressed:(){
+                      controller.searchFriends(
+                          minHeight: _minHeightController.text.isNotEmpty ? int.parse(_minHeightController.text) : null,
+                          maxHeight: _minHeightController.text.isNotEmpty ? int.parse(_maxHeightController.text) : null,
+                          minWeight: _minHeightController.text.isNotEmpty ? int.parse(_minWeightController.text) : null,
+                          maxWeight: _minHeightController.text.isNotEmpty ? int.parse(_maxWeightController.text) : null,
+                          minAge: _minHeightController.text.isNotEmpty ? int.parse(_minAgeController.text) : null,
+                          maxAge: _minHeightController.text.isNotEmpty ? int.parse(_maxAgeController.text) : null
+                      );
+                    }, child: Text("search".tr)),
                   )
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              child: TextButton(onPressed:(){
-
-              }, child: Text("search".tr)),
-            )
-          ],
-        ),
+          ),
+          Expanded(child: GestureDetector(
+            onTap: controller.onSearchFilterTap,
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ))
+        ],
       ),
     );
   }

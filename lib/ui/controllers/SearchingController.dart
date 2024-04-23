@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'package:comfy_dating/base/BaseController.dart';
 import 'package:comfy_dating/beans/CountyBean.dart';
+import 'package:comfy_dating/beans/PersonBean.dart';
 import 'package:comfy_dating/configs/MyColors.dart';
-import 'package:comfy_dating/enums/Gender.dart';
 import 'package:comfy_dating/http/GitApi.dart';
 import 'package:comfy_dating/ui/templates/bottomSheets/CountyBottomSheet.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class SearchingController extends BaseController {
@@ -11,28 +13,30 @@ class SearchingController extends BaseController {
 
   final isSearch = false.obs;
 
-  final twCountys = <CountyBean>[].obs;
-  final gender = Gender.NONE.obs;
-
-  // SearchingController(){
-  //   rootBundle.loadString('assets/jsons/taiwan_districts.json').then((jsonString){
-  //     List<dynamic> datas = jsonDecode(jsonString);
-  //     datas.forEach((data) {
-  //       twCountys.add(CountyBean.fromJson(data));
-  //     });
-  //   });
-  // }
+  final persons = <PersonBean>[].obs;
+  final twAreas = <AreaBean>[].obs;
+  final gender = "".obs;
 
   @override
   void onInit() {
     super.onInit();
     getTwCountys();
+    searchFriends();
   }
 
   void getTwCountys(){
-    GitApi.to.getTwCountys((countys){
-      twCountys.value = countys;
+    GitApi.to.getTwAreas((areas){
+      twAreas.value = areas;
     }, onApiError);
+  }
+
+  void searchFriends({int? minHeight, int? maxHeight, int? minWeight, int? maxWeight, int? minAge, int? maxAge}){
+    rootBundle.loadString('assets/jsons/fake_people.json').then((jsonString){
+      List<dynamic> datas = jsonDecode(jsonString);
+      datas.forEach((data) {
+        persons.add(PersonBean.fromJson(data));
+      });
+    });
   }
   // ------------------------------
   void onSearchFilterTap(){
@@ -41,17 +45,17 @@ class SearchingController extends BaseController {
 
   void onAreaFilterTap(){
     Get.bottomSheet(
-      CountyBottomSheet(twCountys, onDistrictTap: (){
-        twCountys.refresh();
+      AreaBottomSheet(twAreas, onItemTap: (){
+        twAreas.refresh();
       }),
       backgroundColor: MyColors.bg_default,
       // isScrollControlled: true
     );
   }
 
-  void onGenderTap(Gender gender){
+  void onGenderTap(String gender){
     if (this.gender == gender){
-      this.gender.value = Gender.NONE;
+      this.gender.value = "";
     }else{
       this.gender.value = gender;
     }

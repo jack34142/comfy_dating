@@ -3,12 +3,12 @@ import 'package:comfy_dating/configs/MyStyles.dart';
 import 'package:comfy_dating/ui/templates/buttons/CheckButton.dart';
 import 'package:flutter/material.dart';
 
-class CountyBottomSheet extends StatelessWidget {
+class AreaBottomSheet extends StatelessWidget {
 
-  final List<CountyBean> countys;
-  final void Function()? onDistrictTap;
+  final List<AreaBean> areas;
+  final void Function()? onItemTap;
 
-  const CountyBottomSheet(this.countys, {super.key, this.onDistrictTap});
+  const AreaBottomSheet(this.areas, {super.key, this.onItemTap});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class CountyBottomSheet extends StatelessWidget {
           ),
           Expanded(child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: countys.length,
+              itemCount: areas.length,
               itemBuilder: (context, index){
-                CountyBean county = countys[index];
+                AreaBean county = areas[index];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -45,12 +45,12 @@ class CountyBottomSheet extends StatelessWidget {
                           setState((){
                             district.isSelect = !district.isSelect;
                             if(district.isSelect){
-                              countys[index].selectCount++;
+                              areas[index].selectCount++;
                             }else{
-                              countys[index].selectCount--;
+                              areas[index].selectCount--;
                             }
-                            if(onDistrictTap != null){
-                              onDistrictTap!();
+                            if(onItemTap != null){
+                              onItemTap!();
                             }
                           });
                         },
