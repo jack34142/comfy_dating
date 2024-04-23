@@ -4,6 +4,7 @@ class En {
     "search": "Search",
     "message": "Message",
     "member": "Member",
-    "close": "Close"
+    "close": "Close",
+    "exit_app": "Press again to exit the app"
   };
 }

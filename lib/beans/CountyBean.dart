@@ -2,20 +2,21 @@
 
 import 'dart:convert';
 
-TwCounty twCountyFromJson(String str) => TwCounty.fromJson(json.decode(str));
+CountyBean twCountyFromJson(String str) => CountyBean.fromJson(json.decode(str));
 
-String twCountyToJson(TwCounty data) => json.encode(data.toJson());
+String twCountyToJson(CountyBean data) => json.encode(data.toJson());
 
-class TwCounty {
-    TwCounty({
+class CountyBean {
+    CountyBean({
         required this.districts,
         required this.name,
     });
 
     List<District> districts;
     String name;
+    int selectCount = 0;
 
-    factory TwCounty.fromJson(Map<dynamic, dynamic> json) => TwCounty(
+    factory CountyBean.fromJson(Map<dynamic, dynamic> json) => CountyBean(
         districts: List<District>.from(json["districts"].map((x) => District.fromJson(x))),
         name: json["name"],
     );
@@ -34,6 +35,7 @@ class District {
 
     String zip;
     String name;
+    bool isSelect = false;
 
     factory District.fromJson(Map<dynamic, dynamic> json) => District(
         zip: json["zip"],

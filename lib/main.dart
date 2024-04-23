@@ -1,4 +1,4 @@
-import 'package:comfy_dating/config/MyColors.dart';
+import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/l10n/Messages.dart';
 import 'package:comfy_dating/ui/views/HomePage.dart';
 import 'package:comfy_dating/ui/views/OverlayPage.dart';
@@ -19,9 +19,10 @@ void main() {
     // ],
     title: 'appname'.tr,
     theme: ThemeData(
+      scaffoldBackgroundColor: MyColors.bg_default,
       unselectedWidgetColor: MyColors.icon_unselected,
       colorScheme: ColorScheme.highContrastLight(
-        primary: MyColors.icon_selected,  //selected/button color
+        primary: MyColors.primary,  //selected icon color / button text color
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: MyColors.primary,
@@ -40,8 +41,14 @@ void main() {
         style: OutlinedButton.styleFrom(
           side: BorderSide(
             width: 1.5,
-            color: MyColors.icon_selected
+            color: MyColors.primary
           ),
+        )
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          backgroundColor: MyColors.primary,
+          foregroundColor: MyColors.text_darkbg
         )
       ),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap

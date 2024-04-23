@@ -1,15 +1,12 @@
 import 'package:comfy_dating/base/BaseController.dart';
-import 'package:comfy_dating/base/BaseModel.dart';
 import 'package:get/get.dart';
 
-class OverlayController extends BaseController<BaseModel> {
+class OverlayController extends BaseController {
   static OverlayController get to => Get.find();
 
+  final loadingCount = 0.obs;
   final isToast = false.obs;
   final toastString = "".obs;
-
-  @override
-  BaseModel initModel() => BaseModel();
 
   @override
   void showToast(String msg) {
@@ -19,5 +16,17 @@ class OverlayController extends BaseController<BaseModel> {
     Future.delayed(const Duration(milliseconds: 1500), () {
       isToast.value = false;
     });
+  }
+
+  @override
+  void showLoading() {
+    loadingCount.value++;
+  }
+
+  @override
+  void hideLoading() {
+    if(loadingCount.value > 0){
+      loadingCount.value--;
+    }
   }
 }

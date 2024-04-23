@@ -1,21 +1,18 @@
+import 'dart:io';
 import 'package:comfy_dating/base/BaseController.dart';
-import 'package:comfy_dating/base/BaseModel.dart';
 import 'package:comfy_dating/ui/views/MemberPage.dart';
 import 'package:comfy_dating/ui/views/MessagePage.dart';
 import 'package:comfy_dating/ui/views/SearchingPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class HomeController extends BaseController<BaseModel> {
+class HomeController extends BaseController {
   static HomeController get to => Get.find();
 
   var selectedIndex = 0.obs;
   var canPop = false.obs;
-
-  List<String> titles = ["search".tr, "message".tr, "member".tr];
-
-  @override
-  BaseModel initModel() => BaseModel();
+  int _lastBackPress = 0;
 
   void go(String routeName, {
       bool offAll = false,
@@ -30,15 +27,6 @@ class HomeController extends BaseController<BaseModel> {
   }
 
   // ------------------------------
-  void onBackPress(){
-    if( canPop.value ){
-      Get.back(id: selectedIndex.value);
-      _updateCanPop();
-    }else{
-      debugPrint("你在首頁了");
-    }
-  }
-
   Route? onRouteGenerate(RouteSettings settings) {
     switch(settings.name){
       case "/home/search":
@@ -52,7 +40,6 @@ class HomeController extends BaseController<BaseModel> {
     }
   }
 
-  // ------------------------------
   void _updateCanPop(){
     NavigatorState? state = Get.global(selectedIndex.value).currentState;
     if( state == null || !state.canPop() ){
@@ -60,5 +47,30 @@ class HomeController extends BaseController<BaseModel> {
     }else{
       canPop.value =  true;
     }
+  }
+
+  // ------------------------------
+  void onBackPress(){
+    if( canPop.value ){
+      Get.back(id: selectedIndex.value);
+      _updateCanPop();
+    }else{
+      int now = DateTime.timestamp().millisecondsSinceEpoch;
+      if(now - _lastBackPress < 1500){
+        if (GetPlatform.isAndroid) {
+          SystemNavigator.pop();
+        } else if (GetPlatform.isIOS) {
+          exit(0);
+        }
+      }else{
+        _lastBackPress = now;
+        showToast("exit_app".tr);
+      }
+    }
+  }
+
+  void onTabTab(int index){
+    selectedIndex.value = index;
+    _updateCanPop();
   }
 }

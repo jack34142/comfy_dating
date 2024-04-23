@@ -1,3 +1,4 @@
+import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/ui/controllers/OverlayController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,16 +33,24 @@ class OverlayPage extends StatelessWidget{
                 ),
                 child: Text(controller.toastString.value,
                   // softWrap: true,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 14,
-                      color: Colors.white,
+                      color: MyColors.text_darkbg,
                       decoration: TextDecoration.none
                   ),
                 ),
               ),
             ),
           ),
-        ))
+        )),
+        Obx(() => controller.loadingCount > 0 ? Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: const Color(0x66000000),
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ) : Container())
       ],
     );
   }

@@ -1,49 +1,27 @@
-import 'package:comfy_dating/base/BaseModel.dart';
 import 'package:comfy_dating/ui/controllers/OverlayController.dart';
 import 'package:comfy_dating/ui/templates/dialogs/MsgDialog.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-abstract class BaseController<T extends BaseModel> extends FullLifeCycleController with FullLifeCycleMixin{
-  late final T model;
+abstract class BaseController extends GetxController{
+  void showMsg(String msg){
+    Get.dialog(MsgDialog(msg));
+  }
 
-  T initModel();
+  void showLoading(){
+    OverlayController.to.showLoading();
+  }
 
-  @override
-  void onInit() {
-    super.onInit();
-    model = initModel();
+  void hideLoading(){
+    OverlayController.to.hideLoading();
   }
 
   void showToast(String msg){
     OverlayController.to.showToast(msg);
   }
 
-  void showMsg(String msg){
-    Get.dialog(MsgDialog(msg));
-  }
-
-  @override
-  void onDetached() {
-    // debugPrint("onDetached");
-  }
-
-  @override
-  void onHidden() {
-    // debugPrint("onHidden");
-  }
-
-  @override
-  void onInactive() {
-    // debugPrint("onInactive");
-  }
-
-  @override
-  void onPaused() {
-    // debugPrint("onPaused");
-  }
-
-  @override
-  void onResumed() {
-    // debugPrint("onResumed");
+  void onApiError(dynamic error){
+    debugPrint(error.toString());
+    showMsg(error.toString());
   }
 }

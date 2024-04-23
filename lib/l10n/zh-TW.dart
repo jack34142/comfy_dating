@@ -4,6 +4,7 @@ class ZhTW {
     "search": "搜尋",
     "message": "訊息",
     "member": "會員",
-    "close": "關閉"
+    "close": "關閉",
+    "exit_app": "再次返回退出應用"
   };
 }
