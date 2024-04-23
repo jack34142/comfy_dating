@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyTextField extends StatelessWidget {
+  final TextEditingController? controller;
+  final _focusNode = FocusNode();
 
   final bool numberOnly;
   final int? maxLength;
+  final Function(String)? onChange;
 
-  MyTextField({this.numberOnly = false, this.maxLength});
+  MyTextField({this.controller, this.numberOnly = false, this.maxLength, this.onChange});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +19,12 @@ class MyTextField extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(10))
     );
     return TextField(
+      controller: controller,
+      focusNode: _focusNode,
+      onTapOutside: (event){
+        _focusNode.unfocus();
+      },
+      onChanged: onChange,
       textAlign: TextAlign.center,
       maxLength: maxLength,
       decoration: InputDecoration(

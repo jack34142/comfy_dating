@@ -1,5 +1,6 @@
 import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/configs/MyStyles.dart';
+import 'package:comfy_dating/enums/Gender.dart';
 import 'package:comfy_dating/http/GitApi.dart';
 import 'package:comfy_dating/ui/controllers/HomeController.dart';
 import 'package:comfy_dating/ui/controllers/SearchingController.dart';
@@ -17,6 +18,13 @@ class SearchingBinding implements Bindings {
 }
 
 class SearchingPage extends GetView<SearchingController>{
+  final TextEditingController _minHighController = TextEditingController();
+  final TextEditingController _maxHighController = TextEditingController();
+  final TextEditingController _minWeightController = TextEditingController();
+  final TextEditingController _maxWeightController = TextEditingController();
+  final TextEditingController _minAgeController = TextEditingController();
+  final TextEditingController _maxAgeController = TextEditingController();
+
   @override
   Widget build(context) {
     return Obx(() => Column(
@@ -33,19 +41,14 @@ class SearchingPage extends GetView<SearchingController>{
             )
           ],
         ),
-        Expanded(child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-              ),
-              controller.isSearch.value ? _buildSearchFilter() : Container()
-            ],
-          ),
+        Expanded(child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+            ),
+            controller.isSearch.value ? _buildSearchFilter() : Container()
+          ],
         ))
       ],
     ));
@@ -69,24 +72,28 @@ class SearchingPage extends GetView<SearchingController>{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("性別", style: MyStyles.text_title),
+                  Text("gender".tr, style: MyStyles.text_title),
                   Container(height: 3),
                   Wrap(
                     spacing: 4,
                     children: [
-                      CheckButton(Text("男性"), onPressed: (){}),
-                      CheckButton(Text("女性"), onPressed: (){})
+                      CheckButton(Text("male".tr),
+                        isSelect: controller.gender.value == Gender.MALE,
+                        onPressed: () => controller.onGenderTap(Gender.MALE)
+                      ),
+                      CheckButton(Text("female".tr),
+                        isSelect: controller.gender.value == Gender.FEMALE,
+                        onPressed:  () => controller.onGenderTap(Gender.FEMALE)
+                      )
                     ],
                   ),
                   Row(
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("地區", style: MyStyles.text_title),
+                      Text("area".tr, style: MyStyles.text_title),
                       IconButton(
-                          onPressed: (){
-                            controller.onAreaFilterTap();
-                          },
-                          icon: Icon(Icons.add_circle, color: MyColors.primary,)
+                        onPressed: controller.onAreaFilterTap,
+                        icon: Icon(Icons.add_circle, color: MyColors.primary)
                       )
                     ],
                   ),
@@ -99,48 +106,75 @@ class SearchingPage extends GetView<SearchingController>{
                   Container(height: 5),
                   Row(
                     children: [
-                      Text("身高", style: MyStyles.text_title),
+                      Text("high".tr, style: MyStyles.text_title),
                       Container(
                         margin: EdgeInsets.only(left: 8),
                         width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3),
+                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _minHighController),
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 7),
-                        child: Text("~", style: MyStyles.text_title),
+                        child: Text("~"),
                       ),
                       Container(
                         margin: EdgeInsets.only(right: 6),
                         width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3),
+                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxHighController),
                       ),
                       Text("cm"),
                       IconButton(onPressed: (){
-
+                        _minHighController.text = "";
+                        _maxHighController.text = "";
                       }, icon: Icon(Icons.cancel, color: MyColors.primary))
                     ],
                   ),
                   Container(height: 6),
                   Row(
                     children: [
-                      Text("體重", style: MyStyles.text_title),
+                      Text("weight".tr, style: MyStyles.text_title),
                       Container(
                         margin: EdgeInsets.only(left: 8),
                         width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3),
+                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _minWeightController),
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 7),
-                        child: Text("~", style: MyStyles.text_title),
+                        child: Text("~"),
                       ),
                       Container(
                         margin: EdgeInsets.only(right: 6),
                         width: 48,
-                        child: MyTextField(numberOnly: true, maxLength: 3),
+                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxWeightController),
                       ),
                       Text("kg"),
                       IconButton(onPressed: (){
-
+                        _minWeightController.text = "";
+                        _maxWeightController.text = "";
+                      }, icon: Icon(Icons.cancel, color: MyColors.primary))
+                    ],
+                  ),
+                  Container(height: 6),
+                  Row(
+                    children: [
+                      Text("age".tr, style: MyStyles.text_title),
+                      Container(
+                        margin: EdgeInsets.only(left: 8),
+                        width: 48,
+                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _minAgeController),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 7),
+                        child: Text("~"),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 6),
+                        width: 48,
+                        child: MyTextField(numberOnly: true, maxLength: 3, controller: _maxAgeController),
+                      ),
+                      Text("years_old".tr),
+                      IconButton(onPressed: (){
+                        _minAgeController.text = "";
+                        _maxAgeController.text = "";
                       }, icon: Icon(Icons.cancel, color: MyColors.primary))
                     ],
                   )
@@ -151,7 +185,7 @@ class SearchingPage extends GetView<SearchingController>{
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: TextButton(onPressed:(){
 
-              }, child: Text("搜尋")),
+              }, child: Text("search".tr)),
             )
           ],
         ),

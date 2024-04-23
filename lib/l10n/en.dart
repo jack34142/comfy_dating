@@ -5,6 +5,14 @@ class En {
     "message": "Message",
     "member": "Member",
     "close": "Close",
-    "exit_app": "Press again to exit the app"
+    "exit_app": "Press again to exit the app",
+    "years_old": "years old",
+    "male": "Male",
+    "female": "Female",
+    "gender": "Gender",
+    "area": "Area",
+    "high": "Height",
+    "weight": "Weight",
+    "age": "Age"
   };
 }
