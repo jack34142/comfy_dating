@@ -13,6 +13,7 @@ class En {
     "area": "Area",
     "high": "Height",
     "weight": "Weight",
-    "age": "Age"
+    "age": "Age",
+    "clear": "Clear"
   };
 }

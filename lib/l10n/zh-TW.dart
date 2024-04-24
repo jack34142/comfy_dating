@@ -13,6 +13,7 @@ class ZhTW {
     "area": "地區",
     "high": "身高",
     "weight": "體重",
-    "age": "年齡"
+    "age": "年齡",
+    "clear": "清空"
   };
 }

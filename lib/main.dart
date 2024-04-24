@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  if (!kDebugMode) {
-    debugPrint = (String? message, {int? wrapWidth}) => null;
-  }
+  // if (!kDebugMode) {
+  //   debugPrint = (String? message, {int? wrapWidth}) => null;
+  // }
 
   runApp(GetMaterialApp(
     enableLog: kDebugMode,

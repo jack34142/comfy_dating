@@ -12,6 +12,7 @@ abstract class BaseHttp extends GetConnect {
     // baseUrl = 'https://api.covid19api.com'; // It define baseUrl to
     // Http and websockets if used with no [httpClient] instance
     httpClient.baseUrl = myBaseUrl;
+    httpClient.timeout = Duration(seconds: 60);
 
     // ===== 登入驗證, 在addRequestModifier之前 =====
     //Autenticator will be called 3 times if HttpStatus is

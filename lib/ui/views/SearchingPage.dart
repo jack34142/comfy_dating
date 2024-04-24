@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:comfy_dating/beans/CountyBean.dart';
 import 'package:comfy_dating/beans/PersonBean.dart';
 import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/configs/MyStyles.dart';
@@ -7,10 +10,7 @@ import 'package:comfy_dating/ui/controllers/HomeController.dart';
 import 'package:comfy_dating/ui/controllers/SearchingController.dart';
 import 'package:comfy_dating/ui/templates/buttons/CheckButton.dart';
 import 'package:comfy_dating/ui/templates/textFields/MyTextField.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class SearchingBinding implements Bindings {
@@ -48,7 +48,7 @@ class SearchingPage extends GetView<SearchingController>{
         Expanded(child: Stack(
           children: [
             _buildPeople(),
-            controller.isSearch.value ? _buildSearchFilter() : Container()
+            controller.isSearch.value ? _buildSearchOptions() : Container()
           ],
         ))
       ],
@@ -80,7 +80,7 @@ class SearchingPage extends GetView<SearchingController>{
             child: Ink.image(
               fit: BoxFit.cover,
               image: CachedNetworkImageProvider(
-                "https://scontent.ftpe14-1.fna.fbcdn.net/v/t1.6435-9/93366674_2972441042778573_4903541754998816768_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=jncWmNkmSqoAb6CmMSc&_nc_ht=scontent.ftpe14-1.fna&oh=00_AfBuWqM3FsySpCMsXtrV_WJpjV7xcjDOwpdcF1IRTe2yzQ&oe=664F3A61",
+                person.avatar,
                 // placeholder: (context, url) => CircularProgressIndicator(),
                 // errorWidget: (context, url, error) => Icon(Icons.error),
               ),
@@ -149,7 +149,7 @@ class SearchingPage extends GetView<SearchingController>{
     );
   }
 
-  Widget _buildSearchFilter(){
+  Widget _buildSearchOptions(){
     return Container(
       // color: MyColors.shadow,
       child: Column(
@@ -282,16 +282,50 @@ class SearchingPage extends GetView<SearchingController>{
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                    child: TextButton(onPressed:(){
-                      controller.searchFriends(
-                          minHeight: _minHeightController.text.isNotEmpty ? int.parse(_minHeightController.text) : null,
-                          maxHeight: _minHeightController.text.isNotEmpty ? int.parse(_maxHeightController.text) : null,
-                          minWeight: _minHeightController.text.isNotEmpty ? int.parse(_minWeightController.text) : null,
-                          maxWeight: _minHeightController.text.isNotEmpty ? int.parse(_maxWeightController.text) : null,
-                          minAge: _minHeightController.text.isNotEmpty ? int.parse(_minAgeController.text) : null,
-                          maxAge: _minHeightController.text.isNotEmpty ? int.parse(_maxAgeController.text) : null
-                      );
-                    }, child: Text("search".tr)),
+                    child: Row(
+                      // crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          style: MyStyles.btn_transparent,
+                          onPressed: (){
+                            controller.gender.value = "";
+                            _minHeightController.text = "";
+                            _maxHeightController.text = "";
+                            _minWeightController.text = "";
+                            _maxWeightController.text = "";
+                            _minAgeController.text = "";
+                            _maxAgeController.text = "";
+
+                            int len = controller.twAreas.length;
+                            for(int i=0; i<len; i++){
+                              AreaBean area = controller.twAreas[i];
+                              if(area.selectCount != 0){
+                                area.districts = area.districts.map((district){
+                                  district.isSelect = false;
+                                  return district;
+                                }).toList();
+                                area.selectCount = 0;
+                                controller.twAreas[i] = area;
+                              }
+                            }
+                            controller.searchFriends();
+                          },
+                          child: Text("clear".tr)
+                        ),
+                        TextButton(onPressed:(){
+                          controller.searchFriends(
+                              minHeight: _minHeightController.text.isNotEmpty ? int.parse(_minHeightController.text) : null,
+                              maxHeight: _maxHeightController.text.isNotEmpty ? int.parse(_maxHeightController.text) : null,
+                              minWeight: _minWeightController.text.isNotEmpty ? int.parse(_minWeightController.text) : null,
+                              maxWeight: _maxWeightController.text.isNotEmpty ? int.parse(_maxWeightController.text) : null,
+                              minAge: _minAgeController.text.isNotEmpty ? int.parse(_minAgeController.text) : null,
+                              maxAge: _maxAgeController.text.isNotEmpty ? int.parse(_maxAgeController.text) : null
+                          );
+                        }, child: Text("search".tr)
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),

@@ -17,7 +17,11 @@ class GitApi extends BaseHttp {
         onSuccess(countys);
         completer.complete(true);
       }else{
-        onFailed(res.body.toString());
+        if(res.body != null){
+          onFailed(res.body);
+        }else{
+          onFailed(res.statusText);
+        }
         completer.complete(false);
       }
     }).catchError((e){

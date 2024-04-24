@@ -11,21 +11,23 @@ class PersonBean {
         required this.area,
         required this.zip,
         required this.birthday,
-        required this.height,
         required this.gender,
         required this.name,
         required this.weight,
         required this.id,
+        required this.avatar,
+        required this.height,
     });
 
     String area;
     int zip;
     DateTime birthday;
-    int height;
     String gender;
     String name;
     int weight;
     int id;
+    String avatar;
+    int height;
 
     int get age => DateTime.now().year - birthday.year;
 
@@ -33,21 +35,23 @@ class PersonBean {
         area: json["area"],
         zip: json["zip"],
         birthday: DateTime.parse(json["birthday"]),
-        height: json["height"],
         gender: json["gender"],
         name: json["name"],
         weight: json["weight"],
         id: json["id"],
+        avatar: json["avatar"],
+        height: json["height"],
     );
 
     Map<dynamic, dynamic> toJson() => {
         "area": area,
         "zip": zip,
         "birthday": "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
-        "height": height,
         "gender": gender,
         "name": name,
         "weight": weight,
         "id": id,
+        "avatar": avatar,
+        "height": height,
     };
 }

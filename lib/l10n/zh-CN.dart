@@ -13,6 +13,7 @@ class ZhCN {
     "area": "地区",
     "high": "身高",
     "weight": "体重",
-    "age": "年龄"
+    "age": "年龄",
+    "clear": "清空"
   };
 }
