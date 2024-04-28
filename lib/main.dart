@@ -1,5 +1,5 @@
 import 'package:comfy_dating/configs/MyColors.dart';
-import 'package:comfy_dating/l10n/Messages.dart';
+import 'package:comfy_dating/languages/Messages.dart';
 import 'package:comfy_dating/ui/views/HomePage.dart';
 import 'package:comfy_dating/ui/views/OverlayPage.dart';
 import 'package:flutter/foundation.dart';

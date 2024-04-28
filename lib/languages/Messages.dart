@@ -1,7 +1,7 @@
-import 'package:comfy_dating/l10n/en.dart';
-import 'package:comfy_dating/l10n/zh-CN.dart';
-import 'package:comfy_dating/l10n/zh-TW.dart';
 import 'package:get/get.dart';
+import 'en.dart';
+import 'zh-CN.dart';
+import 'zh-TW.dart';
 
 class Messages extends Translations {
   @override

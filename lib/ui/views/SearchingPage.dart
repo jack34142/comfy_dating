@@ -1,8 +1,8 @@
 import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:comfy_dating/beans/CountyBean.dart';
-import 'package:comfy_dating/beans/PersonBean.dart';
+import 'package:comfy_dating/ui/models/Area.dart';
+import 'package:comfy_dating/ui/models/Person.dart';
 import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/configs/MyStyles.dart';
 import 'package:comfy_dating/http/GitApi.dart';
@@ -69,7 +69,7 @@ class SearchingPage extends GetView<SearchingController>{
         ),
         itemCount: controller.persons.length,
         itemBuilder: (context, index){
-          PersonBean person = controller.persons[index];
+          Person person = controller.persons[index];
           Color mColor = person.gender == "f" ? MyColors.pink : MyColors.blue;
           return Material(
             elevation: 6,
@@ -299,7 +299,7 @@ class SearchingPage extends GetView<SearchingController>{
 
                             int len = controller.twAreas.length;
                             for(int i=0; i<len; i++){
-                              AreaBean area = controller.twAreas[i];
+                              Area area = controller.twAreas[i];
                               if(area.selectCount != 0){
                                 area.districts = area.districts.map((district){
                                   district.isSelect = false;

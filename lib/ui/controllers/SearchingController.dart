@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'package:comfy_dating/base/BaseController.dart';
-import 'package:comfy_dating/beans/CountyBean.dart';
-import 'package:comfy_dating/beans/PersonBean.dart';
+import 'package:comfy_dating/ui/models/Area.dart';
+import 'package:comfy_dating/ui/models/Person.dart';
 import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/http/GitApi.dart';
 import 'package:comfy_dating/ui/templates/bottomSheets/AreaBottomSheet.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
@@ -14,8 +13,8 @@ class SearchingController extends BaseController {
 
   final isSearch = false.obs;
 
-  final persons = <PersonBean>[].obs;
-  final twAreas = <AreaBean>[].obs;
+  final persons = <Person>[].obs;
+  final twAreas = <Area>[].obs;
   final gender = "".obs;
 
   @override
@@ -26,9 +25,11 @@ class SearchingController extends BaseController {
   }
 
   void getTwCountys(){
+    showLoading();
     GitApi.to.getTwAreas((areas){
       twAreas.value = areas;
     }, onApiError);
+    hideLoading();
   }
 
   void searchFriends({int? minHeight, int? maxHeight, int? minWeight, int? maxWeight, int? minAge, int? maxAge}){
@@ -49,7 +50,7 @@ class SearchingController extends BaseController {
 
       int len = datas.length;
       for(int i=0; i<len; i++){
-        PersonBean person = PersonBean.fromJson(datas[i]);
+        Person person = Person.fromJson(datas[i]);
         if(gender.value != "" && gender.value != person.gender){
           continue;
         }
@@ -80,7 +81,14 @@ class SearchingController extends BaseController {
   }
   // ------------------------------
   void onSearchFilterTap(){
-    isSearch.value = !isSearch.value;
+    if(!isSearch.value){
+      if(twAreas.isEmpty){
+        getTwCountys();
+      }
+      isSearch.value = true;
+    }else{
+      isSearch.value = false;
+    }
   }
 
   void onAreaFilterTap(){

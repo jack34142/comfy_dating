@@ -2,12 +2,12 @@
 
 import 'dart:convert';
 
-PersonBean personBeanFromJson(String str) => PersonBean.fromJson(json.decode(str));
+Person personBeanFromJson(String str) => Person.fromJson(json.decode(str));
 
-String personBeanToJson(PersonBean data) => json.encode(data.toJson());
+String personBeanToJson(Person data) => json.encode(data.toJson());
 
-class PersonBean {
-    PersonBean({
+class Person {
+    Person({
         required this.area,
         required this.zip,
         required this.birthday,
@@ -31,7 +31,7 @@ class PersonBean {
 
     int get age => DateTime.now().year - birthday.year;
 
-    factory PersonBean.fromJson(Map<dynamic, dynamic> json) => PersonBean(
+    factory Person.fromJson(Map<dynamic, dynamic> json) => Person(
         area: json["area"],
         zip: json["zip"],
         birthday: DateTime.parse(json["birthday"]),

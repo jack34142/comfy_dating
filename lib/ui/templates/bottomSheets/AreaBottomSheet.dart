@@ -1,11 +1,11 @@
-import 'package:comfy_dating/beans/CountyBean.dart';
+import 'package:comfy_dating/ui/models/Area.dart';
 import 'package:comfy_dating/configs/MyStyles.dart';
 import 'package:comfy_dating/ui/templates/buttons/CheckButton.dart';
 import 'package:flutter/material.dart';
 
 class AreaBottomSheet extends StatelessWidget {
 
-  final List<AreaBean> areas;
+  final List<Area> areas;
   final void Function()? onItemTap;
 
   const AreaBottomSheet(this.areas, {super.key, this.onItemTap});
@@ -26,7 +26,7 @@ class AreaBottomSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: areas.length,
               itemBuilder: (context, index){
-                AreaBean county = areas[index];
+                Area county = areas[index];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
