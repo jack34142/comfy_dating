@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:comfy_dating/base/BaseController.dart';
-import 'package:comfy_dating/ui/models/Area.dart';
-import 'package:comfy_dating/ui/models/Person.dart';
+import 'package:comfy_dating/ui/BaseController.dart';
+import 'package:comfy_dating/models/Area.dart';
+import 'package:comfy_dating/models/Person.dart';
 import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/http/GitApi.dart';
 import 'package:comfy_dating/ui/templates/bottomSheets/AreaBottomSheet.dart';

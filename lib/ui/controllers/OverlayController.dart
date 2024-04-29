@@ -1,4 +1,4 @@
-import 'package:comfy_dating/base/BaseController.dart';
+import 'package:comfy_dating/ui/BaseController.dart';
 import 'package:get/get.dart';
 
 class OverlayController extends BaseController {

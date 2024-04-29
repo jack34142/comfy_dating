@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:comfy_dating/base/BaseController.dart';
+import 'package:comfy_dating/ui/BaseController.dart';
 import 'package:comfy_dating/ui/views/MemberPage.dart';
 import 'package:comfy_dating/ui/views/MessagePage.dart';
 import 'package:comfy_dating/ui/views/SearchingPage.dart';

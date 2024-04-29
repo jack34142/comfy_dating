@@ -1,4 +1,4 @@
-import 'package:comfy_dating/ui/models/Area.dart';
+import 'package:comfy_dating/models/Area.dart';
 import 'package:comfy_dating/configs/MyStyles.dart';
 import 'package:comfy_dating/ui/templates/buttons/CheckButton.dart';
 import 'package:flutter/material.dart';

@@ -1,8 +1,8 @@
 import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:comfy_dating/ui/models/Area.dart';
-import 'package:comfy_dating/ui/models/Person.dart';
+import 'package:comfy_dating/models/Area.dart';
+import 'package:comfy_dating/models/Person.dart';
 import 'package:comfy_dating/configs/MyColors.dart';
 import 'package:comfy_dating/configs/MyStyles.dart';
 import 'package:comfy_dating/http/GitApi.dart';

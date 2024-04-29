@@ -1,4 +1,4 @@
-import 'package:comfy_dating/base/BaseController.dart';
+import 'package:comfy_dating/ui/BaseController.dart';
 
 class MemberController extends BaseController {
 

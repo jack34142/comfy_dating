@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:comfy_dating/http/BaseHttp.dart';
-import 'package:comfy_dating/ui/models/Area.dart';
+import 'package:comfy_dating/models/Area.dart';
 import 'package:get/get.dart';
 
 class GitApi extends BaseHttp {
